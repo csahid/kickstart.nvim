@@ -99,7 +99,7 @@ vim.g.have_nerd_font = true
 --  For more options, you can see `:help option-list`
 
 -- Make line numbers default
--- vim.opt.number = true
+vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
@@ -156,6 +156,9 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+--
+-- Show column line at 80 characters
+vim.opt.colorcolumn = '80'
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -939,6 +942,7 @@ require('lazy').setup({
     -- Github copilot
     'github/copilot.vim',
   },
+  -- Harpoon with telescope enabled
   {
     'ThePrimeagen/harpoon',
     branch = 'harpoon2',
@@ -976,6 +980,9 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>hs', function()
         toggle_telescope(harpoon:list())
       end, { desc = '[H]arpoon [S]how' })
+      vim.keymap.set('n', '<leader>he', function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end, { desc = '[H]arpoon [E]dit' })
     end,
   },
 
