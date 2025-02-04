@@ -97,7 +97,7 @@ vim.g.have_nerd_font = true
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
-
+vim.opt.tabstop = 4
 -- Make line numbers default
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
@@ -675,6 +675,8 @@ require('lazy').setup({
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
+        ensure_installed = servers,
+        automatic_installation = true,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
@@ -683,6 +685,16 @@ require('lazy').setup({
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
+          end,
+          ['volar'] = function()
+            require('lspconfig').volar.setup {
+              init_options = {
+                vue = {
+                  hybridMode = false,
+                },
+              },
+              capabilities = capabilities,
+            }
           end,
         },
       }
@@ -730,6 +742,7 @@ require('lazy').setup({
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
         vue = { 'prettierd', 'prettier', stop_after_first = true },
+        nix = { 'alejandra' },
       },
     },
   },
